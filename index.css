@@ -16,7 +16,7 @@
     justify-content: center;
 }
 
-.number-buttons, .operator-buttons {
+.buttons {
     display: flex;
     align-items: center;
     justify-content: center;
