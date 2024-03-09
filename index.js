@@ -1,44 +1,48 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Operations
-    function add (num1, num2) {
-        return num1 + num2;
-    };
-
-    function subtract (num1, num2) {
-        return num1 - num2;
-    };
-
-    function multiply (num1, num2) {
-        return num1 * num2;
-    };
-
-    function divide (num1, num2) {
-        return num1 / num2;
-    };
-
-    // Operates expression
-    function operate (num1, num2, operator) {
-        return (operator === '+') ? add(num1, num2) :
-               (operator === '-') ? subtract(num1, num2) :
-               (operator === '*') ? multiply(num1, num2) :
-               (operator === '/') ? divide(num1, num2) :
-               'Invalid operator '; 
-    };
-
-
-    // Manipulates the display of the calculator based on user's click.
     const display = document.querySelector('.display');
     let displayEmpty = true;
     let num1 = '';
     let operator = '';
     let num2 = '';
 
-    function displayScreen (e) {
+    function operate(num1, num2, operator) {
+        switch (operator) {
+            case '+':
+                return add(Number(num1), Number(num2));
+            case '-':
+                return subtract(Number(num1), Number(num2));
+            case '/':
+                return divide(Number(num1), Number(num2));
+            case '*':
+                return multiply(Number(num1), Number(num2));
+        }
+    }
+
+    function add(num1, num2) {
+        return num1 + num2;
+    }
+
+    function subtract(num1, num2) {
+        return num1 - num2;
+    }
+
+    function multiply(num1, num2) {
+        return num1 * num2;
+    }
+
+    function divide(num1, num2) {
+        if (num2 === 0) {
+            return 'Error: Division by zero';
+        }
+        return num1 / num2;
+    }
+
+    function displayScreen(e) {
         const buttonValue = e.target.textContent;
         if (operator === '') {
             if (displayEmpty) {
                 display.textContent = buttonValue;
-                num1 = buttonValue;
+                num1 += buttonValue;
                 displayEmpty = false;
             } else {
                 display.textContent += buttonValue;
@@ -47,30 +51,40 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
             if (display.textContent === '') {
                 display.textContent = buttonValue;
-                num2 = buttonValue;
+                num2 += buttonValue;
             } else {
                 display.textContent += buttonValue;
                 num2 += buttonValue;
             }
-        };
-    };
+        }
+    }
 
-    // Updates display.textContent with only numbers by calling displayScreen function.
-    let numBtns = document.querySelectorAll('#num');
+    const numBtns = document.querySelectorAll('#num');
     numBtns.forEach((button) => {
         button.addEventListener('click', displayScreen);
     });
 
-    // Function to handle operator button click
     function operatorClicked(op) {
         operator = op;
         display.textContent = '';
+        displayEmpty = true;
     }
+
     const operatorButtons = document.querySelectorAll('#operator');
     operatorButtons.forEach(button => {
         button.addEventListener('click', function() {
             operatorClicked(button.dataset.operator);
         });
     });
-        
+
+    const equal = document.querySelector('#equal');
+    equal.addEventListener('click', function() {
+        const result = operate(num1, num2, operator);
+        display.textContent = result;
+        num1 = ''; // Store result as num1 for potential further calculations
+        num2 = ''; // Reset num2
+        totalRunning = result.toString();
+        operator = ''; // Reset operator
+        displayEmpty = true; // Reset displayEmpty
+    });
 });
