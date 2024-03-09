@@ -21,7 +21,7 @@ function operate (num1, num2, operator) {
            (operator === '-') ? subtract(num1, num2) :
            (operator === '*') ? multiply(num1, num2) :
            (operator === '/') ? divide(num1, num2) :
-           'Invalid operator ';
+           'Invalid operator '; 
 };
 
 const num1 = 3;
