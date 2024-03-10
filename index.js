@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
             num2 = ''; // Reset num2
             operator = ''; // Reset operator
             displayEmpty = true; // Reset displayEmpty
-            equalPressed = true; // Reset equalPressed
+            equalPressed = false; // Reset equalPressed
         };
     });
 
@@ -128,6 +128,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const del = document.querySelector('#delete');
-    
+    del.addEventListener('click', () => {
+        const currentDisplay = display.textContent;
+        const lastChar = currentDisplay.slice(-1);
+
+        if (lastChar === ' ') {
+            operator = '';
+        } else if (operator === '') {
+            num1 = num1.slice(0, -1);
+        } else {
+            num2 = num2.slice(0, -1);
+        }
+
+        display.textContent = currentDisplay.slice(0, -1);
+    })
 
 });
