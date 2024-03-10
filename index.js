@@ -32,9 +32,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function divide(num1, num2) {
         if (num2 === 0) {
-            return 'Error: Division by zero';
+            alert('Error: Division by zero');
         }
-        return num1 / num2;
+        return (num1 / num2).toFixed(6);
     }
 
     function displayScreen(e) {
@@ -65,10 +65,24 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function operatorClicked(op) {
+        if (operator !== '') {
+            // If there's already an operator, perform the calculation
+            const result = operate(num1, num2, operator);
+            // Display the result
+            display.textContent = result;
+            // Store the result as num1 for future calculations
+            num1 = result.toString();
+            // Reset num2
+            num2 = '';
+        }
+        // Set the operator
         operator = op;
-        display.textContent = '';
+        // Display the operation
+        display.textContent = num1 + ' ' + operator + ' ';
+        // Reset displayEmpty
         displayEmpty = true;
     }
+    
 
     const operatorButtons = document.querySelectorAll('#operator');
     operatorButtons.forEach(button => {
@@ -79,12 +93,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const equal = document.querySelector('#equal');
     equal.addEventListener('click', function() {
-        const result = operate(num1, num2, operator);
-        display.textContent = result;
-        num1 = ''; // Store result as num1 for potential further calculations
-        num2 = ''; // Reset num2
-        totalRunning = result.toString();
-        operator = ''; // Reset operator
-        displayEmpty = true; // Reset displayEmpty
+        if (num2 != '' && operator != '') {
+            const result = operate(num1, num2, operator);
+            display.textContent = result;
+            num1 = result.toString(); // Set num1 to running total for future calculations
+            num2 = ''; // Reset num2
+            operator = ''; // Reset operator
+            displayEmpty = true; // Reset displayEmpty
+        };
     });
+
+    const clear = document.querySelector('#clear');
+    clear.addEventListener('click', () => {
+        display.textContent = '';
+        num1 = '';
+        num2 = '';
+        operator = '';
+        displayEmpty = true;
+    });
+
 });
