@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let num1 = '';
     let operator = '';
     let num2 = '';
+    let equalPressed = false;
 
     function operate(num1, num2, operator) {
         switch (operator) {
@@ -34,11 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (num2 === 0) {
             alert('Error: Division by zero');
         }
-        return (num1 / num2).toFixed(6);
+        return +(Math.round((num1 / num2) + "e+6") + "e-6");
     }
 
+    // Handles the display screen of the calculator
     function displayScreen(e) {
         const buttonValue = e.target.textContent;
+        if (equalPressed) {
+            display.textContent = '';
+            num1 = '';
+            operator = '';
+            num2 = '';
+            equalPressed = false;
+        }
         if (operator === '') {
             if (displayEmpty) {
                 display.textContent = buttonValue;
@@ -64,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
         button.addEventListener('click', displayScreen);
     });
 
+    // Handles when an operator is clicked
     function operatorClicked(op) {
         if (operator !== '') {
             // If there's already an operator, perform the calculation
@@ -83,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         displayEmpty = true;
     }
     
-
+    
     const operatorButtons = document.querySelectorAll('#operator');
     operatorButtons.forEach(button => {
         button.addEventListener('click', function() {
@@ -91,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // Handles when equal is pressed
     const equal = document.querySelector('#equal');
     equal.addEventListener('click', function() {
         if (num2 != '' && operator != '') {
@@ -100,9 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
             num2 = ''; // Reset num2
             operator = ''; // Reset operator
             displayEmpty = true; // Reset displayEmpty
+            equalPressed = true; // Reset equalPressed
         };
     });
 
+
+    // AC button to clear display and all values.
     const clear = document.querySelector('#clear');
     clear.addEventListener('click', () => {
         display.textContent = '';
@@ -110,6 +124,10 @@ document.addEventListener("DOMContentLoaded", () => {
         num2 = '';
         operator = '';
         displayEmpty = true;
+        equalPressed = false;
     });
+
+    const del = document.querySelector('#delete');
+    
 
 });
