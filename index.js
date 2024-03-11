@@ -92,7 +92,6 @@ document.addEventListener("DOMContentLoaded", () => {
         display.textContent = num1 + ' ' + operator + ' ';
         // Reset displayEmpty
         displayEmpty = true;
-        isFloat = false; // Reset isFloat
     }
     
     
@@ -114,7 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
             operator = ''; // Reset operator
             displayEmpty = true; // Reset displayEmpty
             equalPressed = false; // Reset equalPressed
-            isFloat = false; // Reset isFloat
+            if (num1 % 1 != 0 && num2 != '') {
+                isFloat = true;
+            } else {
+                isFloat = false;
+            }
         };
     });
 
@@ -160,6 +163,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 num2 += '.';
                 isFloat = true;
             }
-        };
+        } else {
+            // If isFloat is true, don't allow adding another decimal point
+            alert('Decimal point already added');
+        }
     });
 });
