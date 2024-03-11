@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let currentNumber = operator === '' ? num1 : num2;
-        if (currentNumber.length < 8) {
+        if (currentNumber.length < 9) {
             if (operator === '') {
                 if (displayEmpty) {
                     document.getElementById('placeholder').textContent = buttonValue;
