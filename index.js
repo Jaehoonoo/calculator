@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function displayScreen(e) {
         const buttonValue = e.target.textContent;
         if (equalPressed) {
-            display.textContent = '';
+            document.getElementById('placeholder').textContent = '';
             num1 = '';
             operator = '';
             num2 = '';
@@ -51,22 +51,22 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         let currentNumber = operator === '' ? num1 : num2;
-        if (currentNumber.length < 10) {
+        if (currentNumber.length < 8) {
             if (operator === '') {
                 if (displayEmpty) {
-                    display.textContent = buttonValue;
+                    document.getElementById('placeholder').textContent = buttonValue;
                     num1 += buttonValue;
                     displayEmpty = false;
                 } else {
-                    display.textContent += buttonValue;
+                    document.getElementById('placeholder').textContent += buttonValue;
                     num1 += buttonValue;
                 }
             } else {
-                if (display.textContent === '') {
-                    display.textContent = buttonValue;
+                if (document.getElementById('placeholder').textContent === '') {
+                    document.getElementById('placeholder').textContent = buttonValue;
                     num2 += buttonValue;
                 } else {
-                    display.textContent += buttonValue;
+                    document.getElementById('placeholder').textContent += buttonValue;
                     num2 += buttonValue;
                 }
             }
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // If there's already an operator, perform the calculation
             const result = operate(num1, num2, operator);
             // Display the result
-            display.textContent = result;
+            document.getElementById('placeholder').textContent = result;
             // Store the result as num1 for future calculations
             num1 = result.toString();
             // Reset num2
@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Set the operator
         operator = op;
         // Display the operation
-        display.textContent = num1 + ' ' + operator + ' ';
+        document.getElementById('placeholder').textContent = num1 + ' ' + operator + ' ';
         // Reset displayEmpty
         displayEmpty = true;
     }
@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
     equal.addEventListener('click', function() {
         if (num2 != '' && operator != '') {
             const result = operate(num1, num2, operator);
-            display.textContent = result;
+            document.getElementById('placeholder').textContent = result;
             num1 = result.toString(); // Set num1 to running total for future calculations
             num2 = ''; // Reset num2
             operator = ''; // Reset operator
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // AC button to clear display and all values.
     const clear = document.querySelector('#clear');
     clear.addEventListener('click', () => {
-        display.textContent = '0';
+        document.getElementById('placeholder').textContent = '0';
         num1 = '';
         num2 = '';
         operator = '';
@@ -140,10 +140,10 @@ document.addEventListener("DOMContentLoaded", () => {
     // Deletes char one at a time
     const del = document.querySelector('#delete');
     del.addEventListener('click', () => {
-        const currentDisplay = display.textContent;
+        const currentDisplay = document.getElementById('placeholder').textContent;
         const lastChar = currentDisplay.slice(-1);
 
-        if (display.textContent.length > 1) {
+        if (document.getElementById('placeholder').textContent.length > 1) {
             if (lastChar === ' ') {
                 operator = '';
             } else if (operator === '') {
@@ -152,9 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 num2 = num2.slice(0, -1);
             }
 
-            display.textContent = currentDisplay.slice(0, -1);
+            document.getElementById('placeholder').textContent = currentDisplay.slice(0, -1);
         } else {
-            display.textContent = '0';
+            document.getElementById('placeholder').textContent = '0';
         }
     })
     
@@ -163,11 +163,11 @@ document.addEventListener("DOMContentLoaded", () => {
     decimal.addEventListener('click', () => {
         if (!isFloat) {
             if (num1 != '' && operator === '' && num2 === '') {
-                display.textContent += '.';
+                document.getElementById('placeholder').textContent += '.';
                 num1 += '.';
                 isFloat = true;
             } else if (operator !== '') {
-                display.textContent += '.';
+                document.getElementById('placeholder').textContent += '.';
                 num2 += '.';
                 isFloat = true;
             }
