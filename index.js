@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let operator = '';
     let num2 = '';
     let equalPressed = false;
+    let isFloat = false;
 
     function operate(num1, num2, operator) {
         switch (operator) {
@@ -91,6 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
         display.textContent = num1 + ' ' + operator + ' ';
         // Reset displayEmpty
         displayEmpty = true;
+        isFloat = false; // Reset isFloat
     }
     
     
@@ -112,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             operator = ''; // Reset operator
             displayEmpty = true; // Reset displayEmpty
             equalPressed = false; // Reset equalPressed
+            isFloat = false; // Reset isFloat
         };
     });
 
@@ -127,6 +130,7 @@ document.addEventListener("DOMContentLoaded", () => {
         equalPressed = false;
     });
 
+    // Deletes char one at a time
     const del = document.querySelector('#delete');
     del.addEventListener('click', () => {
         const currentDisplay = display.textContent;
@@ -142,5 +146,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         display.textContent = currentDisplay.slice(0, -1);
     })
-
+    
+    // Allows user to use a '.' for a floating point number
+    const decimal = document.querySelector('#decimal');
+    decimal.addEventListener('click', () => {
+        if (!isFloat) {
+            if (num1 != '' && operator === '' && num2 === '') {
+                display.textContent += '.';
+                num1 += '.';
+                isFloat = true;
+            } else if (operator !== '') {
+                display.textContent += '.';
+                num2 += '.';
+                isFloat = true;
+            }
+        };
+    });
 });
