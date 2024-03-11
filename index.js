@@ -49,22 +49,26 @@ document.addEventListener("DOMContentLoaded", () => {
             num2 = '';
             equalPressed = false;
         }
-        if (operator === '') {
-            if (displayEmpty) {
-                display.textContent = buttonValue;
-                num1 += buttonValue;
-                displayEmpty = false;
+
+        let currentNumber = operator === '' ? num1 : num2;
+        if (currentNumber.length < 10) {
+            if (operator === '') {
+                if (displayEmpty) {
+                    display.textContent = buttonValue;
+                    num1 += buttonValue;
+                    displayEmpty = false;
+                } else {
+                    display.textContent += buttonValue;
+                    num1 += buttonValue;
+                }
             } else {
-                display.textContent += buttonValue;
-                num1 += buttonValue;
-            }
-        } else {
-            if (display.textContent === '') {
-                display.textContent = buttonValue;
-                num2 += buttonValue;
-            } else {
-                display.textContent += buttonValue;
-                num2 += buttonValue;
+                if (display.textContent === '') {
+                    display.textContent = buttonValue;
+                    num2 += buttonValue;
+                } else {
+                    display.textContent += buttonValue;
+                    num2 += buttonValue;
+                }
             }
         }
     }
@@ -125,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // AC button to clear display and all values.
     const clear = document.querySelector('#clear');
     clear.addEventListener('click', () => {
-        display.textContent = '';
+        display.textContent = '0';
         num1 = '';
         num2 = '';
         operator = '';
@@ -139,15 +143,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const currentDisplay = display.textContent;
         const lastChar = currentDisplay.slice(-1);
 
-        if (lastChar === ' ') {
-            operator = '';
-        } else if (operator === '') {
-            num1 = num1.slice(0, -1);
-        } else {
-            num2 = num2.slice(0, -1);
-        }
+        if (display.textContent.length > 1) {
+            if (lastChar === ' ') {
+                operator = '';
+            } else if (operator === '') {
+                num1 = num1.slice(0, -1);
+            } else {
+                num2 = num2.slice(0, -1);
+            }
 
-        display.textContent = currentDisplay.slice(0, -1);
+            display.textContent = currentDisplay.slice(0, -1);
+        } else {
+            display.textContent = '0';
+        }
     })
     
     // Allows user to use a '.' for a floating point number
